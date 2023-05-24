@@ -1,28 +1,11 @@
 import { Inter } from 'next/font/google';
 import { prisma } from '@/utils/prisma';
-import { redirect } from 'next/navigation';
+import { addHandle } from '@/utils/actions';
 
 const inter = Inter({ subsets: ['latin'] });
 
-async function addName(data: FormData) {
-  'use server';
-  const name = data.get('handle')?.valueOf();
-  if (typeof name !== 'string' || name.length < 1) {
-    throw new Error('invalid name');
-  }
-
-  await prisma.programmer.create({
-    data: {
-      handle: name,
-    },
-  });
-
-  redirect('/');
-}
-
-async function getNames() {
-  const names = await prisma.programmer.findMany();
-  return names;
+function getNames() {
+  return prisma.programmer.findMany();
 }
 
 export default async function Home() {
@@ -32,7 +15,8 @@ export default async function Home() {
       <div className='py-4'>
         <h1 className='w-full font-mono text-sm '>opensource inspirations</h1>
       </div>
-      <form action={addName}>
+      {/* @ts-expect-error will work it out later */}
+      <form action={addHandle}>
         <h2 className='text-base font-semibold leading-7 text-gray-900'>list of programmers</h2>
         <p className='mt-1 text-sm leading-6 text-gray-600'>
           These are the people who make the work that inspires me
