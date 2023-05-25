@@ -12,7 +12,7 @@ export default function GitHubUserNameForm({ afterSave }) {
         contacted,
       },
     });
-    afterSave(data);
+    await afterSave(data);
   }
   return (
     // @ts-expect-error
