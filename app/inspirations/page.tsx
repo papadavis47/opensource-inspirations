@@ -1,4 +1,6 @@
 import { prisma } from '@/utils/prisma';
+import Link from 'next/link';
+import Image from 'next/image';
 
 function getProgrammers() {
   return prisma.programmer.findMany();
@@ -16,7 +18,9 @@ export default async function Inspirations() {
         <ul>
           {programmers?.map((programmer) => (
             <li key={programmer.id}>
-              <p>{programmer.handle}</p>
+              <Link href={`/inspirations/${programmer.handle}`}>
+                <p>{programmer.handle}</p>
+              </Link>
               <p>{programmer.description}</p>
             </li>
           ))}
